@@ -1,3 +1,4 @@
+  GNU nano 6.4                                                                 docker-compose.yml                                                                           
 version: '3'
 
 volumes:
@@ -12,19 +13,19 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
   backend:
-    build: ./backend/
+    image: martiandrew/kittygram_backend
     env_file: .env
     volumes:
       - static:/static
       - media:/app/media/
   frontend:
+    image: martiandrew/kittygram_frontend
     env_file: .env
-    build: ./frontend/
     command: cp -r /app/build/. /static/
     volumes:
       - static:/static
   gateway:
-    build: ./nginx/
+    image: martiandrew/kittygram_gateway
     env_file: .env
     ports:
       - 9000:80
