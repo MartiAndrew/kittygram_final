@@ -11,23 +11,27 @@ services:
     image: postgres:13
     volumes:
       - pg_data:/var/lib/postgresql/data
+    restart: unless-stopped
   backend:
     image: martiandrew/kittygram_backend
     env_file: .env
     volumes:
       - static:/static
       - media:/app/media/
+    restart: unless-stopped 
   frontend:
     image: martiandrew/kittygram_frontend
     env_file: .env
     command: cp -r /app/build/. /static/
     volumes:
       - static:/static
+    restart: unless-stopped
   gateway:
     image: martiandrew/kittygram_gateway
     env_file: .env
     ports:
-      - 9000:80
+      - ${NGINX_PORT}:80
     volumes:
       - static:/static
       - media:/app/media/
+    restart: unless-stopped
